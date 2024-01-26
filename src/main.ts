@@ -33,8 +33,10 @@ bot.rest.on('restDebug', message => {
 })
 
 const psAndPost = (channel: TextChannel) => {
+  const logPath = dirname(import.meta.url) + '/../shared/log'
+
   child.exec(
-    'docker ps --format "{{.ID}} {{.Image}}: {{.RunningFor}}"',
+    `cat ${logPath}`,
     (err, stdout, _stderr) => {
       if (err) {
         channel.send(err.message)
