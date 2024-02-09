@@ -4,7 +4,7 @@ import type { Interaction } from 'discord.js'
 import { IntentsBitField, ChannelType, ActivityType, TextChannel } from 'discord.js'
 import { Client } from 'discordx'
 import { createServer } from 'http'
-import * as child from 'child_process';
+import * as child from 'child_process'
 
 const bot = new Client({
   intents: [
@@ -32,7 +32,7 @@ bot.rest.on('restDebug', message => {
   }
 })
 
-const psAndPost = (channel: TextChannel) => {
+const postLog = (channel: TextChannel) => {
   const logPath = dirname(import.meta.url) + '/../shared/log'
 
   child.exec(
@@ -54,13 +54,13 @@ async function run() {
 
   if (process.env.BOT_TOKEN && process.env.CHANNEL_ID) {
     await bot.login(process.env.BOT_TOKEN)
-    const channel = await bot.channels.fetch(process.env.CHANNEL_ID);
+    const channel = await bot.channels.fetch(process.env.CHANNEL_ID)
 
     if (channel && channel.type === ChannelType.GuildText) {
-      psAndPost(channel)
+      postLog(channel)
       setInterval(function () {
-        psAndPost(channel)
-      }, 6 * 3600 * 1000);
+        postLog(channel)
+      }, 6 * 3600 * 1000)
     }
 
     bot.user?.setActivity('running containers', { type: ActivityType.Watching })
